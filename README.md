@@ -56,7 +56,7 @@ Info/Contacts:
 
         Author: Luca Bertoni
 
-        Version: 1.0
+        Version: 1.4
 
         Contacts:
 
