@@ -22,4 +22,4 @@ If you have dBase Plus you can build the project(from /src/Your-Language/Transla
 # How to use Translator  
 Run translate.exe  
 You will see a window like this:  
-  
+  ![Main window](https://github.com/lucabertoni/Translator/blob/master/screenshot/main.PNG?raw=true)
