@@ -32,7 +32,7 @@ You will see a window like this:
     ![Export window](https://github.com/lucabertoni/Translator/blob/master/screenshot/import.PNG?raw=true)  
   - Traduci: Now you are ready to translate your source code!!! Click on this button!!!
 
-
+Be careful: don't rename or move source file after scan and before translate. Translation is based on filename and file path
 
 Info/Contacts:
 
