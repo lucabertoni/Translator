@@ -1,5 +1,3 @@
-// Traduce il PI!!!!!
-
 shell(true,true)
 clear
 
