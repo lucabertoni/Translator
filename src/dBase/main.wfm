@@ -1,0 +1,611 @@
+set procedure to translate.prg additive
+** END HEADER -- non togliere questa linea
+//
+// Generato il 05/06/2015
+//
+parameter bModal
+local f
+f = new mainForm()
+if (bModal)
+   f.mdi = false // impone non sia MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class mainForm of FORM
+   set procedure to outputstrings.dmd additive
+   with (this)
+      height = 25.7273
+      left = -16.7143
+      top = 1.8636
+      width = 122.4286
+      text = "Translate PI"
+      topMost = false
+      autoCenter = true
+      mdi = false
+      sizeable = false
+      escExit = false
+      maximize = false
+      minimize = false
+      icon = "filename C:\dBase Projects\translate\Icons\favicon.ico"
+   endwith
+
+   this.OUTPUTSTRINGSDMD1 = new OUTPUTSTRINGSDMD()
+   this.OUTPUTSTRINGSDMD1.parent = this
+   with (this.OUTPUTSTRINGSDMD1)
+      left = 115.0
+      top = 1.0
+   endwith
+
+   with (this.OUTPUTSTRINGSDMD1.OUTPUTSTRINGS1)
+      sql = "SELECT * FROM OUTPUTSTRINGS"
+   endwith
+
+   with (this.OUTPUTSTRINGSDMD1.OUTPUTSTRINGS1.rowset)
+      filter = "ID < 0"
+   endwith
+
+   with (this.OUTPUTSTRINGSDMD1.ESCLUSIONI1)
+      sql = "SELECT * FROM ESCLUSIONI"
+   endwith
+
+   with (this.OUTPUTSTRINGSDMD1.ESCLUSIONI1.rowset)
+      filter = "ID < 0"
+   endwith
+
+   this.PUSHBUTTON1 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON1)
+      onClick = class::PUSHBUTTON1_ONCLICK
+      height = 1.3182
+      left = 3.0
+      top = 1.0
+      width = 20.2857
+      text = "Esegui scansione"
+      upBitmap = "RESOURCE TL_RUN"
+   endwith
+
+   this.PUSHBUTTON2 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON2)
+      onClick = class::PUSHBUTTON2_ONCLICK
+      height = 1.3182
+      left = 45.4286
+      top = 1.0
+      width = 20.2857
+      text = "Leggi outputstrings"
+      upBitmap = "RESOURCE TL_FILTER"
+   endwith
+
+   this.PUSHBUTTON3 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON3)
+      onClick = class::PUSHBUTTON3_ONCLICK
+      height = 1.3182
+      left = 105.7143
+      top = 23.8182
+      width = 12.2857
+      text = "Esci"
+   endwith
+
+   this.ENTRYFIELD1 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD1)
+      height = 1.0
+      left = 3.0
+      top = 3.0909
+      width = 41.0
+      value = "H:\Project Invoice\"
+      validErrorMsg = "Dato immesso non valido "
+      maxLength = 255
+   endwith
+
+   this.PUSHBUTTON4 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON4)
+      onClick = class::PUSHBUTTON4_ONCLICK
+      height = 1.3182
+      left = 67.0
+      top = 1.0
+      width = 23.2857
+      text = "Cancella outputstrings"
+      upBitmap = "RESOURCE TL_DELETE"
+   endwith
+
+   this.ENTRYFIELDPASSWD = new ENTRYFIELD(this)
+   with (this.ENTRYFIELDPASSWD)
+      onKey = class::ENTRYFIELDPASSWD_ONKEY
+      visible = false
+      height = 1.0
+      left = 67.0
+      top = 3.0909
+      width = 23.2857
+      value = ""
+      validErrorMsg = "Dato immesso non valido "
+   endwith
+
+   this.PUSHBUTTON6 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON6)
+      onClick = class::PUSHBUTTON6_ONCLICK
+      height = 1.3182
+      left = 45.4286
+      top = 3.0
+      width = 20.2857
+      text = "Leggi esclusioni"
+      upBitmap = "RESOURCE TL_FILTER"
+   endwith
+
+   this.NOTEBOOK1 = new NOTEBOOK(this)
+   with (this.NOTEBOOK1)
+      height = 18.5
+      left = 1.0
+      top = 5.0
+      width = 121.0
+      colorNormal = "BtnText/BtnFace"
+      dataSource = 'ARRAY {"Outputstrings", "Esclusioni"}'
+   endwith
+
+   this.NOTEBOOK1.GRID2 = new GRID(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.GRID2)
+      dataLink = form.outputstringsdmd1.esclusioni1.rowset
+      rowSelect = true
+      allowRowSizing = false
+      allowColumnMoving = false
+      allowEditing = false
+      allowAddRows = false
+      pageno = 2
+      height = 15.0
+      left = 1.2857
+      top = 1.5455
+      width = 115.0
+   endwith
+
+   this.NOTEBOOK1.TEXTLABEL1 = new TEXTLABEL(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.TEXTLABEL1)
+      height = 1.0
+      left = 2.1429
+      top = 17.1364
+      width = 21.0
+      text = "Totale: 0"
+      fontSize = 12.0
+   endwith
+
+   this.NOTEBOOK1.TEXTLABEL2 = new TEXTLABEL(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.TEXTLABEL2)
+      height = 1.0
+      left = 2.1429
+      top = 17.1364
+      width = 21.0
+      text = "Totale: 0"
+      fontSize = 12.0
+      pageno = 2
+   endwith
+
+   this.NOTEBOOK1.CHECKBOX1 = new CHECKBOX(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.CHECKBOX1)
+      onChange = class::CHECKBOX1_ONCHANGE1
+      visible = false
+      height = 1.0909
+      left = 23.1429
+      top = 17.0909
+      width = 15.1429
+      text = "sRiga-cEsludi"
+   endwith
+
+   this.NOTEBOOK1.TEXTLABELPROGESS = new TEXTLABEL(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.TEXTLABELPROGESS)
+      height = 0.8182
+      left = 41.1429
+      top = 17.3182
+      width = 57.0
+      text = ""
+   endwith
+
+   this.NOTEBOOK1.GRID1 = new GRID(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.GRID1)
+      onLeftDblClick = class::GRID1_ONLEFTDBLCLICK
+      dataLink = form.outputstringsdmd1.outputstrings1.rowset
+      columns["COLUMN1"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
+      with (columns["COLUMN1"])
+         dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["id"]
+         editorType = 3	// SpinBox
+         width = 18.5714
+      endwith
+      columns["COLUMN2"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
+      with (columns["COLUMN2"])
+         dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["sfile"]
+         editorType = 1	// EntryField
+         width = 111.7143
+      endwith
+      columns["COLUMN3"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
+      with (columns["COLUMN3"])
+         dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["sfunction"]
+         editorType = 1	// EntryField
+         width = 111.7143
+      endwith
+      columns["COLUMN4"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
+      with (columns["COLUMN4"])
+         dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["nriga"]
+         editorType = 3	// SpinBox
+         width = 18.5714
+      endwith
+      columns["COLUMN5"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
+      with (columns["COLUMN5"])
+         dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["sriga"]
+         editorType = 1	// EntryField
+         width = 28.5714
+      endwith
+      columns["COLUMN6"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
+      with (columns["COLUMN6"])
+         dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["cescludi"]
+         editorType = 1	// EntryField
+         width = 11.4286
+      endwith
+      columns["COLUMN7"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
+      with (columns["COLUMN7"])
+         dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["shash"]
+         editorType = 1	// EntryField
+         width = 111.7143
+      endwith
+      with (columns["COLUMN1"].editorControl)
+         rangeMax = 100
+         rangeMin = 1
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN1"].headingControl)
+         value = "Id"
+      endwith
+
+      with (columns["COLUMN2"].editorControl)
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN2"].headingControl)
+         value = "Sfile"
+      endwith
+
+      with (columns["COLUMN3"].editorControl)
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN3"].headingControl)
+         value = "Sfunction"
+      endwith
+
+      with (columns["COLUMN4"].editorControl)
+         rangeMax = 100
+         rangeMin = 1
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN4"].headingControl)
+         value = "Nriga"
+      endwith
+
+      with (columns["COLUMN5"].editorControl)
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN5"].headingControl)
+         value = "Sriga"
+      endwith
+
+      with (columns["COLUMN6"].editorControl)
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN6"].headingControl)
+         value = "Cescludi"
+      endwith
+
+      with (columns["COLUMN7"].editorControl)
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN7"].headingControl)
+         value = "Shash"
+      endwith
+
+      rowSelect = true
+      allowColumnMoving = false
+      allowEditing = false
+      allowAddRows = false
+      height = 15.0
+      left = 1.0
+      top = 1.5
+      width = 119.0
+   endwith
+
+   this.PUSHBUTTON5 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON5)
+      onClick = class::PUSHBUTTON5_ONCLICK
+      height = 1.3182
+      left = 91.0
+      top = 3.0
+      width = 23.2857
+      text = "Genera file traduzioni"
+      upBitmap = "RESOURCE TL_PRINT"
+   endwith
+
+   this.PUSHBUTTON7 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON7)
+      onClick = class::PUSHBUTTON7_ONCLICK
+      height = 1.3182
+      left = 91.0
+      top = 1.0
+      width = 23.2857
+      text = "Importa traduzione"
+      upBitmap = "RESOURCE TL_APPEND"
+   endwith
+
+   this.PUSHBUTTON8 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON8)
+      onClick = class::PUSHBUTTON8_ONCLICK
+      height = 1.3182
+      left = 24.0
+      top = 1.0
+      width = 20.2857
+      text = "Traduci"
+      upBitmap = "RESOURCE TL_RUN"
+   endwith
+
+   this.rowset = this.outputstringsdmd1.outputstrings1.rowset
+
+      function CHECKBOX1_onChange()
+			if this.value = True
+				form.notebook1.grid1.columns["COLUMN1"].width = 0
+				form.notebook1.grid1.columns["COLUMN2"].width = 0
+				form.notebook1.grid1.columns["COLUMN3"].width = 0
+				form.notebook1.grid1.columns["COLUMN4"].width = 0
+				form.notebook1.grid1.columns["COLUMN5"].width = 180.0000
+			else
+				form.notebook1.grid1.columns["COLUMN1"].width = 18.5714
+				form.notebook1.grid1.columns["COLUMN2"].width = 364.2857
+				form.notebook1.grid1.columns["COLUMN3"].width = 364.2857
+				form.notebook1.grid1.columns["COLUMN4"].width = 18.5714
+				form.notebook1.grid1.columns["COLUMN5"].width = 364.2857				
+			endif
+			
+			return
+   
+   function CHECKBOX1_onChange1()
+		if this.value = True
+				form.notebook1.grid1.columns["COLUMN1"].width = 0
+				form.notebook1.grid1.columns["COLUMN2"].width = 0
+				form.notebook1.grid1.columns["COLUMN3"].width = 0
+				form.notebook1.grid1.columns["COLUMN4"].width = 0
+				form.notebook1.grid1.columns["COLUMN5"].width = 180.0000
+			else
+				form.notebook1.grid1.columns["COLUMN1"].width = 18.5714
+				form.notebook1.grid1.columns["COLUMN2"].width = 364.2857
+				form.notebook1.grid1.columns["COLUMN3"].width = 364.2857
+				form.notebook1.grid1.columns["COLUMN4"].width = 18.5714
+				form.notebook1.grid1.columns["COLUMN5"].width = 364.2857				
+			endif      
+
+      return
+   function ENTRYFIELDPASSWD_onKey(nChar, nPosition,bShift,bControl)
+			local d
+			
+			if nChar == 13
+				if this.value == 'Luchino.2015'
+					d = new database()
+					d.databasename = "translatedb"
+					d.loginstring = "SYSDBA/masterkey"
+					d.active = True
+					d.executesql("DELETE FROM OUTPUTSTRINGS WHERE ID > 0")
+					
+					form.outputstringsdmd1.outputstrings1.requery()
+					form.notebook1.grid1.refresh()
+					this.visible = False
+					this.value = ''
+					msgbox("Tabella pulita correttamente!","Tabella pulita",32)
+					
+					form.notebook1.textlabel1.text = 'Totale: '+form.outputstringsdmd1.outputstrings1.rowset.count()
+					
+					d.active = false
+					release object d
+					d = NULL
+					
+				else
+					msgbox("Password sbagliata","Wrong passwd",16)
+				endif
+			endif
+			
+			return
+   
+      function ENTRYFIELDTRADUZIONE_onKey(nChar, nPosition,bShift,bControl)
+			local lc_sPath,lc_oF,lc_oTrd,lc_sOriginale,lc_sTraduzione
+			if not(nChar == 13)
+				return
+			endif
+			
+			lc_sPath = this.value
+			lc_oF = new File()
+			
+			if FILE(lc_sPath)
+				lc_oF.open(lc_sPath)
+			else
+				msgbox("File non trovato","File non trovato",16)
+				return
+			endif
+			
+			lc_oTrd = new Traduzione()
+			
+			do while not(lc_oF.eof())
+				lc_sOriginale = lc_oF.gets()
+				lc_sTraduzione = lc_oF.gets()
+				
+				? "Originale|"+lc_sOriginale+"|"
+				? "Traduzione|"+lc_sTraduzione+"|"
+				return
+			enddo
+			
+			this.visible = False
+			
+			lc_oTrd.releaseConnection()
+			release object lc_oTrd
+			lc_oTrd = NULL
+			
+			lc_oF.close()
+			release object lc_oF
+			lc_oF = NULL
+			
+			return
+/*			
+   function GRID1_onLeftDblClick(flags, col, row)
+		local lc_cEscludi,q,lc_oOs,lc_sHash
+		
+		lc_oOs = new Outputstrings()
+		lc_oEsclusioni = new Esclusioni()
+		
+		q = form.outputstringsdmd1.outputstrings1
+		lc_cEscludi = q.rowset.fields['cEscludi'].Value
+		lc_sHash = q.rowset.fields['sHash'].Value
+		
+		if lc_cEscludi == 'x'
+			lc_oOs.unsetEscludi(lc_sHash)
+			lc_oEsclusioni.delete('SHASH',lc_sHash)
+		else
+			lc_oOs.setEscludi(lc_sHash)
+			lc_oEsclusioni.add(lc_sHash)
+		endif
+		
+		q.requery()
+		this.refresh()
+		
+		lc_oOs.releaseConnection()
+		release object lc_oOs
+		lc_oOs = NULL
+		
+		lc_oEsclusioni.releaseConnection()
+		release object lc_oEsclusioni
+		lc_oEsclusioni = NULL
+		
+      return
+*/
+   
+   function GRID1_onLeftDblClick(flags, col, row)
+		local lc_cEscluso,lc_oEscl,lc_oOs
+		
+		lc_cEscluso = form.outputstringsdmd1.outputstrings1.rowset.fields["CESCLUDI"].Value
+		lc_oEscl = new Esclusioni()
+		lc_oOs = new Outputstrings()
+		lc_sHash = form.outputstringsdmd1.outputstrings1.rowset.fields["SHASH"].Value
+		
+		// Se la riga è già esclusa, la includo...
+		if lc_cEscluso == 'x'
+			
+			// Cosa fa			:			Imposta il campo cEscludi a '' basandosi sull'hash
+			// pr_sHash			:			stringa, hash associato alla riga alla quale modificare il campo cEscludi
+			lc_oOs.unsetEscludi(lc_sHash)
+			
+			// Cosa fa			:			Elimina una riga dalla tabella
+			// pr_sCampo		:			stringa, Campo nel quale cercare un valore che determina la cancellazione della riga
+			// pr_sValore		:			undefined, Valore da cercare nella tabella per determinare quali righe cancellare
+			lc_oEscl.delete("SHASH",lc_sHash)
+			
+			form.outputstringsdmd1.outputstrings1.requery()
+			form.outputstringsdmd1.esclusioni1.requery()
+			form.notebook1.grid1.refresh()
+		// ... Altrimenti la includo
+		else
+		
+			// Cosa fa			:			Imposta il campo cEscludi a 'x' basandosi sull'hash
+			// pr_sHash			:			stringa, hash associato alla riga alla quale modificare il campo cEscludi
+			lc_oOs.setEscludi(lc_sHash)
+			
+			// Cosa fa			:			Aggiunge una riga nella tabella
+			// pr_sHash			:			stringa, valore da inserire nel campo sHash della tabella
+			lc_oEscl.add(lc_sHash)
+			
+			form.outputstringsdmd1.outputstrings1.requery()
+			form.outputstringsdmd1.esclusioni1.requery()
+			form.notebook1.grid1.refresh()			
+		endif
+		
+		lc_oOs.releaseConnection()
+		release object lc_oOs
+		lc_oOs = NULL
+		
+		lc_oEscl.releaseConnection()
+		release object lc_oEscl
+		lc_oEscl = NULL
+		
+      return
+   function PUSHBUTTON1_onClick()
+		local lc_sPath,lc_oOs
+		lc_sPath = form.entryfield1.Value
+		
+		if empty(lc_sPath)
+			msgbox('Inserire una directory valida')
+			return
+		endif
+		
+		form.notebook1.textlabelprogess.text = 'Sto per eseguire la scansione dei file...'
+      do .\ScanStringhe.prg with lc_sPath
+		form.notebook1.textlabelprogess.text = 'Ho salvato le righe estratte nella tabella outputstrings.'
+		
+		// Lo faccio riposare un po'
+		sleep 2
+		
+		form.notebook1.textlabelprogess.text = "Sto per generare l'hash di ogni riga presente nella tabella..."
+		lc_oOs = new Outputstrings()
+		lc_oOs.hash()
+		form.notebook1.textlabelprogess.text = "Hash generato correttamente!"
+		
+		form.notebook1.textlabelprogess.text = "Sto per aggiornare le esclusioni(campo cEscludi)..."		
+		lc_oOs.updateEsclusioni()
+		form.notebook1.textlabelprogess.text = "Campo cEscludi aggiornato correttamente..."		
+		lc_oOs.releaseConnection()
+		
+		release object lc_oOs
+		lc_oOs = NULL
+      return
+		
+      function PUSHBUTTON1_onClick1()
+			form.outputstringsdmd1.outputstrings1.rowset.save()
+			return
+   function PUSHBUTTON2_onClick()
+		form.outputstringsdmd1.outputstrings1.rowset.filter = ''
+		form.outputstringsdmd1.outputstrings1.requery()
+		form.outputstringsdmd1.outputstrings1.rowset.refresh()
+		form.notebook1.grid1.enabled = True
+		form.notebook1.grid1.refresh()
+		form.notebook1.checkbox1.visible = True
+		form.notebook1.textlabel1.text = 'Totale: '+form.outputstringsdmd1.outputstrings1.rowset.count()
+		form.notebook1.cursel = 1
+      return
+		
+   function PUSHBUTTON3_onClick()
+      form.close()
+      return
+   function PUSHBUTTON4_onClick()
+      form.entryfieldpasswd.visible = True
+      return
+		
+      function PUSHBUTTON5_onClick()
+			do .\makeFile.wfm
+			return
+   function PUSHBUTTON5_onClick1()
+      return
+   
+   function PUSHBUTTON6_onClick()
+		form.outputstringsdmd1.esclusioni1.rowset.filter = ''
+		form.outputstringsdmd1.esclusioni1.requery()
+		form.outputstringsdmd1.esclusioni1.rowset.refresh()
+		form.notebook1.grid2.refresh()
+		form.notebook1.cursel = 2
+		form.notebook1.textlabel2.text = 'Totale: '+form.outputstringsdmd1.esclusioni1.rowset.count()
+      return
+   
+   function PUSHBUTTON7_onClick()
+		do .\importFile.wfm
+      return
+   
+   function PUSHBUTTON8_onClick()
+      do .\translate.wfm
+      return
+   function TEXTLABEL1_onOpen()
+      this.text = 'Totale: '+form.outputstringsdmd1.outputstrings1.rowset.count()
+      return
+
+endclass
+

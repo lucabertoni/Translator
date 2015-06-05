@@ -1,0 +1,12 @@
+
+FILES
+   C:\dBase Projects\translate\main.wfO
+   C:\dBase Projects\translate\ScanStringhe.prO
+   C:\dBase Projects\translate\outputstrings.dmO
+   C:\dBase Projects\translate\Working.wfO
+   C:\dBase Projects\translate\translate.prO
+   C:\dBase Projects\translate\api.prO
+   C:\dBase Projects\translate\makeFile.wfO
+   C:\dBase Projects\translate\importFile.wfO
+TO C:\dBase Projects\translate\Translate.exe
+WEBAPPLICATION False

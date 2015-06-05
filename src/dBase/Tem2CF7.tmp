@@ -1,0 +1,272 @@
+set procedure to .\api.prg additive
+
+class TranslateDB Of DATABASE
+	with(this)
+		databasename = 'TranslateDB'
+		loginstring = 'SYSDBA/masterkey'
+		active = True
+	endwith
+endclass
+
+// Classe che gestisce la tabella outputstrings
+// File				:			translate.prg
+class Outputstrings
+	this.oDb = new translatedb()
+/*	
+	this.q = new query()
+	this.q.database = this.oDb
+	this.q.sql = 'SELECT * FROM OUTPUTSTRINGS'
+	this.q.active = True
+
+	// Cosa fa		:			Inserisce i dati nella tabella
+	// pr_sFile		:			stringa, percorso del file
+	// pr_sFunction:			stringa, nome della funzione
+	// pr_nRiga		:			numerico, numero della riga
+	// pr_sRiga		:			stringa, riga da inserire
+	// Ritorna		:			lc_bRet, true se inserimento riuscito, altrimenti false
+	// File			:			translate.prg
+	function insertTb(pr_sFile,pr_sFunction,pr_nRiga,pr_sRiga)
+		local lc_sFile,lc_sFunction,lc_nRiga,lc_sRiga,lc_sSql,lc_bRet
+		
+		lc_sFile = pr_sFile
+		lc_sFunction = pr_sFunction
+		lc_nRiga = pr_nRiga
+		lc_sRiga = pr_sRiga
+		lc_bRet = False
+		
+		this.q.rowset.beginAppend()
+		this.q.rowset.fields['sFile'].Value = lc_sFile
+		this.q.rowset.fields['sFunction'].Value = lc_sFunction
+		this.q.rowset.fields['nRiga'].Value = lc_nRiga
+		this.q.rowset.fields['sRiga'].Value = lc_sRiga
+		// Cosa fa			:			Genera l'md5 di una stringa di testo
+		// pr_sStringa		:			stringa, stringa di testo dalla quale generare l'md5
+		// Ritorna			:			lc_sRet -> stringa, md5 della stringa
+		// File				:			api.prg
+		this.q.rowset.fields['sHash'].Value = md5(lc_sRiga)
+		this.q.rowset.save()
+		
+		try
+			lc_bRet = True
+		catch(Exception e)
+			return lc_bRet
+		endtry
+
+		return lc_bRet
+*/
+	// Cosa fa			:			Genera l'hash (firebird sql) della colonna sRiga, per ogni riga nella tabella e lo salva in sHash
+	function hash()
+		local lc_sSql
+		lc_sSql = 'UPDATE OUTPUTSTRINGS SET SHASH=HASH(SRIGA)'
+		this.oDb.executesql(lc_sSql)
+		return
+
+	// Cosa fa			:			Aggiorna il campo cEscludi della tabella per ogni riga
+	//									Viene settato a 'x' se l'hash della riga è presente nella tabella delle esclusioni
+	function updateEsclusioni()
+		local lc_sSql,q1
+		
+		q1 = new query()
+		q1.database = this.odb
+		q1.requestlive = False
+		q1.sql = 'SELECT OUTPUTSTRINGS.ID FROM OUTPUTSTRINGS JOIN ESCLUSIONI ON OUTPUTSTRINGS.SHASH=ESCLUSIONI.SHASH'
+		q1.active = True
+		
+		if q1.rowset.endofset
+			return
+		endif
+	
+		lc_sSql = 'UPDATE OUTPUTSTRINGS SET CESCLUDI="x" WHERE '
+		do while not(q1.rowset.endOfSet)
+			lc_sSql += 'ID='+q1.rowset.fields['id'].Value+' OR '
+			q1.rowset.next()
+		enddo
+		
+		
+		lc_sSql = substr(lc_sSql,1,len(lc_sSql)-4)
+		this.odb.executesql(lc_sSql)
+		
+		q1.active = False
+		release object q1
+		q1 = NULL
+		
+		return
+		
+	// Cosa fa			:			Imposta il campo cEscludi a '' basandosi sull'hash
+	// pr_sHash			:			stringa, hash associato alla riga alla quale modificare il campo cEscludi
+	function unsetEscludi(pr_sHash)
+		local lc_sSql,lc_sHash
+		
+		lc_sHash = pr_sHash
+		lc_sSql = 'UPDATE OUTPUTSTRINGS SET CESCLUDI="" WHERE SHASH="'+lc_sHash+'"'
+		this.odb.executesql(lc_sSql)
+		return
+		
+		
+	// Cosa fa			:			Imposta il campo cEscludi a 'x' basandosi sull'hash
+	// pr_sHash			:			stringa, hash associato alla riga alla quale modificare il campo cEscludi
+	function setEscludi(pr_sHash)
+		local lc_sSql,lc_sHash
+		lc_sHash = pr_sHash
+		lc_sSql = 'UPDATE OUTPUTSTRINGS SET CESCLUDI="x" WHERE SHASH="'+lc_sHash+'"'
+		this.odb.executesql(lc_sSql)
+		return
+	
+	// Cosa fa			:			Estrae tutte le righe di output (solamente il campo sRiga) dove cEscludi NON è 'x'
+	// Ritorna			:			lc_aRet -> array, array contenente tutte le righe estratte con la select
+	function getOutputStrings()
+		local lc_aRet,q
+		
+		lc_aRet = new array()
+		
+		q = new query()
+		q.database = this.oDb
+		q.sql = "SELECT SRIGA FROM OUTPUTSTRINGS WHERE CESCLUDI IS NULL"
+		q.requestlive = False
+		q.active = True
+		
+		do while not(q.rowset.endOfSet)
+			lc_aRet.add(q.rowset.fields['sRiga'].Value)
+			q.rowset.next()
+		enddo
+
+		q.active = False
+		release object q
+		q = NULL
+
+		return lc_aRet
+		
+	// Cosa fa			:			Chiude la connessione al db, rilasciando l'oggetto this.oDb e this.q
+	function releaseConnection()
+/*		this.q.active = False
+		release object this.q
+		this.q = NULL
+*/	
+		this.oDb.active = False
+		release object this.oDb
+		this.oDb = NULL
+		return
+endclass
+
+// Classe che gestisce la tabella esclusioni
+class Esclusioni
+	this.oDb = new translatedb()
+	
+	// Cosa fa			:			Elimina una riga dalla tabella
+	// pr_sCampo		:			stringa, Campo nel quale cercare un valore che determina la cancellazione della riga
+	// pr_sValore		:			undefined, Valore da cercare nella tabella per determinare quali righe cancellare
+	function delete(pr_sCampo,pr_sValore)
+		local lc_sCampo,lc_sSql
+		private lc_sValore
+		
+		lc_sCampo = pr_sCampo
+		lc_sValore = pr_sValore
+		
+		if type('lc_sValore') == 'C'
+			lc_sSql = 'DELETE FROM ESCLUSIONI WHERE '+lc_sCampo+'="'+lc_sValore+'"'
+		else
+			lc_sSql = 'DELETE FROM ESCLUSIONI WHERE '+lc_sCampo+'='+lc_sValore
+		endif
+		
+		this.oDb.executesql(lc_sSql)
+		return
+		
+	// Cosa fa			:			Aggiunge una riga nella tabella
+	// pr_sHash			:			stringa, valore da inserire nel campo sHash della tabella
+	function add(pr_sHash)
+		local lc_sHash
+		lc_sHash = pr_sHash
+		lc_sSql = 'INSERT INTO ESCLUSIONI(SHASH) VALUES("'+lc_sHash+'")'
+		this.oDb.executesql(lc_sSql)
+		return
+	
+	// Cosa fa			:			Chiude la connessione al db, rilasciando l'oggetto this.oDb
+	function releaseConnection()
+		this.oDb.active = False
+		release object this.oDb
+		this.oDb = NULL
+		return
+endclass
+
+// Classe che gestisce la tabella "traduzione"
+class Traduzione
+	this.oDb = new translatedb()
+	this.oQ = new query()
+	this.oQ.database = this.oDb
+	this.oQ.sql = "SELECT * FROM TRADUZIONE"
+	this.oQ.active = True
+	
+	// Cosa fa			:			Esegue un insert nella tabella
+	// pr_sOriginale	:			stringa, stringa da inserire nel campo 'sOriginale' della tabella
+	//									Corrisponde alla stringa originale del source-code
+	// pr_sTraduzione	:			stringa, stringa da inserire nel campo 'sTraduzione' della tabella
+	//									Corrisponde alla traduzione della stringa originale
+	function insert(pr_sOriginale,pr_sTraduzione)
+		local lc_sOriginale,lc_sTraduzione
+		
+		lc_sOriginale = pr_sOriginale
+		lc_sTraduzione = pr_sTraduzione
+		
+		this.oQ.beginAppend()
+		this.oQ.rowset.fields["sOriginale"].Value = lc_sOriginale
+		this.oQ.rowset.fields["sTraduzione"].Value = lc_sTraduzione
+		this.oQ.save()
+		return
+
+// Cosa fa			:			Genera l'hash (firebird sql) della colonna sOriginale, per ogni riga nella tabella e lo salva in sHash
+	function hash()
+		local lc_sSql
+		lc_sSql = 'UPDATE TRADUZIONE SET SHASH=HASH(SORIGINALE)'
+		this.oDb.executesql(lc_sSql)
+		return
+			
+	// Cosa fa			:			Cancella tutto il contenuto della tabella Traduzione
+	function deleteAll()
+		this.oDb.executesql("DELETE FROM TRADUZIONE")
+		return
+	
+	// Cosa fa			:			Chiude la connessione al db, rilasciando l'oggetto this.oDb
+	function releaseConnection()
+		this.oQ.active = False
+		release object this.oQ
+		this.oQ = NULL
+	
+		this.oDb.active = False
+		release object this.oDb
+		this.oDb = NULL
+		return
+	
+endclass
+
+// Cosa fa			:			Crea il file per le traduzioni delle righe
+// pr_aRighe		:			array, righe da inserire nel file (= da tradurre)
+function writeFileTraduzioni(pr_aRighe)	
+	local lc_aOs,lc_fine,lc_sPath,lc_oF,lc_sRiga,lc_nCount
+	
+	lc_aOs = pr_aRighe
+	lc_nCount = 0
+	
+	lc_fine = lc_aOs.size
+
+	lc_sPath = '.\traduzione.csv'
+	lc_oF = new file()
+
+	if file(lc_sPath)
+		// !!! Sostituisce tutto il contenuto del file !!!
+		lc_oF.open(lc_sPath,'W')
+	else
+		lc_oF.create(lc_sPath,"W")
+	endif
+
+	for i = 1 to lc_fine
+		lc_sRiga = 'IT|'+lc_aOs[i])
+		lc_oF.puts(lc_sRiga)
+		lc_sRiga = 'EN|'+lc_aOs[i])
+		lc_oF.puts(lc_sRiga)
+	next
+
+	lc_oF.close()
+	release object lc_oF
+	lc_oF = NULL
+	
+	return
