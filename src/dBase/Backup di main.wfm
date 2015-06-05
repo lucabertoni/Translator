@@ -20,7 +20,7 @@ class mainForm of FORM
       left = -16.7143
       top = 1.8636
       width = 122.4286
-      text = "Translate PI"
+      text = "Translate"
       topMost = false
       autoCenter = true
       mdi = false

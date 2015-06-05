@@ -8,5 +8,7 @@ FILES
    C:\dBase Projects\translate\api.prO
    C:\dBase Projects\translate\makeFile.wfO
    C:\dBase Projects\translate\importFile.wfO
+   C:\dBase Projects\translate\translate.wfO
+   C:\dBase Projects\translate\ScanTraduci.prO
 TO C:\dBase Projects\translate\Translate.exe
 WEBAPPLICATION False
