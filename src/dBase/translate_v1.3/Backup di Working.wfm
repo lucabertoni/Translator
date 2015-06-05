@@ -1,0 +1,50 @@
+** END HEADER -- non togliere questa linea
+//
+// Generato il 14/05/2015
+//
+parameter bModal
+local f
+f = new WorkingForm()
+if (bModal)
+   f.mdi = false // impone non sia MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class WorkingForm of FORM
+   with (this)
+      height = 3.7727
+      left = 40.7143
+      top = 16.9091
+      width = 57.5714
+      text = "Lavorando..."
+      topMost = true
+      autoCenter = true
+      escExit = false
+   endwith
+
+   this.TEXT1 = new TEXT(this)
+   with (this.TEXT1)
+      height = 1.0
+      left = 0.7143
+      top = 0.6818
+      width = 56.1429
+      text = ""
+   endwith
+
+   this.PROGRESS1 = new PROGRESS(this)
+   with (this.PROGRESS1)
+      height = 1.0
+      left = 0.7143
+      top = 2.1818
+      width = 56.1429
+      value = 0
+      rangeMin = 0
+      rangeMax = 100
+   endwith
+
+
+
+endclass
+
