@@ -184,8 +184,10 @@ function AttraversaDir(pr_dir)
 				pb_oF.close()
 				
 				// Rinomino i file
+				? "Sto eliminando il vecchio file"
+				pb_oF.delete(lc_filePath)
+				
 				? "Sto rinominando il file..."
-				pb_oF.rename(lc_filePath,lc_filePath+"_IT")
 				pb_oFTradotto.rename(lc_sFileDest,lc_filePath)
 
 			endif
