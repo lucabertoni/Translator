@@ -21,5 +21,13 @@ If you have dBase Plus you can build the project(from /src/Your-Language/Transla
 
 # How to use Translator  
 Run translate.exe  
-You will see a window like this:  
+You will see a window like this:
+
   ![Main window](https://github.com/lucabertoni/Translator/blob/master/screenshot/main.PNG?raw=true)
+
+  - Esegui scansione: It will take the path that you want to scan (the path of your source code) from the entryfield below  
+  - Genera file traduzioni: This button will make a file containing the original line (all the source code line)(IT (italian, but it's non important)), and a copy of original one that will be translated (Ex: ES). You have to export file with column separator: chr(30)(ascii 30)  
+    ![Export window](https://github.com/lucabertoni/Translator/blob/master/screenshot/export.PNG?raw=true)  
+  - Importa traduzione: After you have translated source code lines, you can import translations using this function  
+    ![Export window](https://github.com/lucabertoni/Translator/blob/master/screenshot/import.PNG?raw=true)  
+  - Traduci: Now you are ready to translate your source code!!! Click on this button!!!  
