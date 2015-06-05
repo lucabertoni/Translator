@@ -34,6 +34,9 @@ You will see a window like this:
 
 Be careful: don't rename or move source file after scan and before translate. Translation is based on filename and file path.
 
+## Supported Languages  
+  - dBase
+
 ## Coming soon:  
   - Visual Basic  
   - C  
