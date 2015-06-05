@@ -32,6 +32,8 @@ You will see a window like this:
     ![Export window](https://github.com/lucabertoni/Translator/blob/master/screenshot/import.PNG?raw=true)  
   - Traduci: Now you are ready to translate your source code!!! Click on this button!!!
 
+
+
 Info/Contacts:
 
         Last Update: 05/06/2015
