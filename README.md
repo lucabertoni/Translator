@@ -17,6 +17,9 @@ If you have dBase Plus you can build the project(from /src/Your-Language/Transla
   - Name it: TranslateDB  
   - Set Server Name: C:\absolute_path\translate\OUTPUTSTRINGS.GDB  
   - Set SqlQryMode: LOCAL  
-	- User Name: SYSDBA (if you want to access to the database, password is: masterkey)
+  - User Name: SYSDBA (if you want to access to the database, password is: masterkey)
 
-# How to use Translator
+# How to use Translator  
+Run translate.exe  
+You will see a window like this:  
+  
