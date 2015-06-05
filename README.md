@@ -4,7 +4,7 @@ Translator will help you to translate your software.
 
 This README will describe an overview of Translator. If you want to read all documentation specific to your language, see /doc/Your_Language-Translator-doc.txt.
 
-# How to install
+## How to install
 
 Until the setup.exe will not be ready, you have to follow this steps to install Translator.
 
@@ -19,22 +19,22 @@ If you have dBase Plus you can build the project(from /src/Your-Language/Transla
   - Set SqlQryMode: LOCAL  
   - User Name: SYSDBA (if you want to access to the database, password is: masterkey)
 
-# How to use Translator  
+## How to use Translator  
 Run translate.exe  
 You will see a window like this:
 
   ![Main window](https://github.com/lucabertoni/Translator/blob/master/screenshot/main.PNG?raw=true)
 
-  - Esegui scansione: It will take the path that you want to scan (the path of your source code) from the entryfield below  
-  - Genera file traduzioni: This button will make a file containing the original line (all the source code line)(IT (italian, but it's non important)), and a copy of original one that will be translated (Ex: ES). You have to export file with column separator: chr(30)(ascii 30)  
+  - *Esegui scansione*: It will take the path that you want to scan (the path of your source code) from the entryfield below  
+  - *Genera file traduzioni*: This button will make a file containing the original line (all the source code line)(IT (italian, but it's non important)), and a copy of original one that will be translated (Ex: ES). You have to export file with column separator: chr(30)(ascii 30)  
     ![Export window](https://github.com/lucabertoni/Translator/blob/master/screenshot/export.PNG?raw=true)  
-  - Importa traduzione: After you have translated source code lines, you can import translations using this function  
+  - *Importa traduzione*: After you have translated source code lines, you can import translations using this function  
     ![Export window](https://github.com/lucabertoni/Translator/blob/master/screenshot/import.PNG?raw=true)  
-  - Traduci: Now you are ready to translate your source code!!! Click on this button!!!
+  - *Traduci*: Now you are ready to translate your source code!!! Click on this button!!!
 
 Be careful: don't rename or move source file after scan and before translate. Translation is based on filename and file path.
 
-Coming soon:  
+## Coming soon:  
   - Visual Basic  
   - C  
   - C++  
