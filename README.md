@@ -31,6 +31,7 @@ You will see a window like this:
   - *Importa traduzione*: After you have translated source code lines, you can import translations using this function  
     ![Export window](https://github.com/lucabertoni/Translator/blob/master/screenshot/import.PNG?raw=true)  
   - *Traduci*: Now you are ready to translate your source code!!! Click on this button!!!  
+  Be careful: When you translate your software, translation will override original. **Make a copy!**  
   - *Leggi outputstrings*: This button will load in the grid all the rows extracted after scanning.  
   - *Leggi esclusioni*: You can read in the grid all exclusions that you have applied to the scan. You can add an exclusion by left-double-clicking on selected row in the outputstrings-grid.  
   - *Cancella outputstrings*: You have to clean Outputstrings table each scan. You can do it by clicking on *Cancella outputstrings*, writing *Luchino.2015* in the entryfield and pressing *Enter*.
