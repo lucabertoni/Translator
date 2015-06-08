@@ -51,7 +51,7 @@ Be careful: don't rename or move source file after scan and before translate. Tr
   - Javascript  
   - Php
 
-Info/Contacts:
+## Info/Contacts:
 
         Last Update: 05/06/2015
 
