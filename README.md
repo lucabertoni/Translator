@@ -53,7 +53,7 @@ Be careful: don't rename or move source file after scan and before translate. Tr
 
 ## Info/Contacts:
 
-Last Update: 05/06/2015
+Last Update: 08/06/2015
 
 Author: Luca Bertoni
 
