@@ -68,8 +68,6 @@ Last Update: 08/06/2015
 
 Author: Luca Bertoni
 
-Version: 1.4
-
 Contacts:
 
 	Email: luca.bertoni24@gmail.com
