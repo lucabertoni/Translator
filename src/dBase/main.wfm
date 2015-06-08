@@ -1,7 +1,7 @@
 set procedure to translate.prg additive
 ** END HEADER -- non togliere questa linea
 //
-// Generato il 05/06/2015
+// Generato il 08/06/2015
 //
 parameter bModal
 local f
@@ -17,8 +17,8 @@ class mainForm of FORM
    set procedure to outputstrings.dmd additive
    with (this)
       height = 25.7273
-      left = -16.7143
-      top = 1.8636
+      left = -17.4286
+      top = 0.3182
       width = 122.4286
       text = "Translate"
       topMost = false
@@ -313,6 +313,28 @@ class mainForm of FORM
       width = 119.0
    endwith
 
+   this.NOTEBOOK1.PUSHBUTTON1 = new PUSHBUTTON(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.PUSHBUTTON1)
+      onClick = class::PUSHBUTTON1_ONCLICK2
+      height = 1.3182
+      left = 99.0
+      top = 16.8182
+      width = 10.2857
+      text = "Inizio"
+      upBitmap = "RESOURCE TL_FIRST"
+   endwith
+
+   this.NOTEBOOK1.PUSHBUTTON2 = new PUSHBUTTON(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.PUSHBUTTON2)
+      onClick = class::PUSHBUTTON2_ONCLICK1
+      height = 1.3182
+      left = 109.4286
+      top = 16.7727
+      width = 10.2857
+      text = "Fine"
+      upBitmap = "RESOURCE TL_LAST"
+   endwith
+
    this.PUSHBUTTON5 = new PUSHBUTTON(this)
    with (this.PUSHBUTTON5)
       onClick = class::PUSHBUTTON5_ONCLICK
@@ -563,6 +585,10 @@ class mainForm of FORM
       function PUSHBUTTON1_onClick1()
 			form.outputstringsdmd1.outputstrings1.rowset.save()
 			return
+   
+   function PUSHBUTTON1_onClick2()
+      form.outputstringsdmd1.outputstrings1.rowset.first()
+      return
    function PUSHBUTTON2_onClick()
 		form.outputstringsdmd1.outputstrings1.rowset.filter = ''
 		form.outputstringsdmd1.outputstrings1.requery()
@@ -574,6 +600,9 @@ class mainForm of FORM
 		form.notebook1.cursel = 1
       return
 		
+      function PUSHBUTTON2_onClick1()
+      form.outputstringsdmd1.outputstrings1.rowset.last()
+      return
    function PUSHBUTTON3_onClick()
       form.close()
       return

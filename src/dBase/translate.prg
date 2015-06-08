@@ -12,6 +12,11 @@ endclass
 // File				:			translate.prg
 class Outputstrings
 	this.oDb = new translatedb()
+	
+	this.oQ = new query()
+	this.oQ.database = this.oDb
+	this.oQ.sql = "SELECT * FROM OUTPUTSTRINGS"
+	this.oQ.active = True
 /*	
 	this.q = new query()
 	this.q.database = this.oDb
@@ -114,6 +119,7 @@ class Outputstrings
 	
 	// Cosa fa			:			Estrae tutte le righe di output (solamente il campo sRiga) dove cEscludi NON è 'x'
 	// Ritorna			:			lc_aRet -> array, array contenente tutte le righe estratte con la select
+	// Obsoleta			:			Vedi getSRiga()
 	function getOutputStrings()
 		local lc_aRet,q
 		
@@ -172,6 +178,31 @@ class Outputstrings
 		q = NULL
 		return lc_aRet
 
+	// Cosa fa			:			Estrae la colonna sRiga dalla tabella
+	// pr_sRiga			:			stringa(opzionale), clausola da usare nella where
+	// Ritorna			:			lc_aRet -> array, contiene tutte le righe del rowset
+	function getSRiga(pr_sRiga)
+		local lc_sRiga
+		
+		if pcount()>0
+			lc_sRiga = pr_sRiga
+			this.oQ.active = False
+			this.oQ.sql = "SELECT SRIGA FROM OUTPUTSTRINGS WHERE SRIGA = :riga"
+			this.oQ.params["riga"] = lc_sRiga
+			this.oQ.active = False
+		else
+			this.oQ.sql = "SELECT SRIGA FROM OUTPUTSTRINGS"
+		endif
+		
+		lc_aRet = new array()
+		
+		do while not(q.rowset.endOfSet)
+			lc_aRet.add(q.rowset.fields["sRiga"].Value)
+			q.rowset.next()
+		enddo
+		
+		return lc_aRet
+
 	// Cosa fa			:			Estrae tutte le righe di output (solamente il campo sRiga e sHash) dove cEscludi NON è 'x'
 	// Ritorna			:			lc_aRet -> array, array contenente tutte le righe estratte con la select, così strutturato
 	//									lc_aRet[1] =>
@@ -207,10 +238,10 @@ class Outputstrings
 		
 	// Cosa fa			:			Chiude la connessione al db, rilasciando l'oggetto this.oDb e this.q
 	function releaseConnection()
-/*		this.q.active = False
-		release object this.q
-		this.q = NULL
-*/	
+		this.oQ.active = False
+		release object this.oQ
+		this.oQ = NULL
+
 		this.oDb.active = False
 		release object this.oDb
 		this.oDb = NULL

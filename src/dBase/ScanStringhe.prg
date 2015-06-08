@@ -27,9 +27,9 @@ endif
 
 clear
 
-local lc_array,lc_dir,lc_files,lc_logFile,lc_oFile,lc_oDb,lc_oOs
+local lc_array,lc_dir,lc_files,lc_logFile,lc_oFile,lc_oDb
 
-public lc_aext,lc_aresult,pb_pathLogFile,pb_bLogVariabiliNonDichiarate,pb_sSql,pb_oOutputstrings,lc_aOS
+public lc_aext,lc_aresult,pb_pathLogFile,pb_bLogVariabiliNonDichiarate,pb_sSql,pb_oOs,lc_aOS,pb_aOs
 
 lc_aext=new array()
 //lc_aext.add("ini")
@@ -75,8 +75,12 @@ q.sql = 'SELECT * FROM outputstrings'
 q.active = true
 
 // Estraggo le righe presenti ora nella tabella OutputStrings
-lc_oOs = new Outputstrings()
-pb_aOs = lc_oOs.getOutputStrings()
+pb_oOs = new Outputstrings()
+
+// Cosa fa			:			Estrae la colonna sRiga dalla tabella
+// pr_sRiga			:			stringa(opzionale), clausola da usare nella where
+// Ritorna			:			lc_aRet -> array, contiene tutte le righe del rowset
+pb_aOs =  pb_oOs.getSRiga()
 
 lc_aresult=new array()
 AttraversaDir(_PATH_TO_SCAN)
@@ -84,9 +88,9 @@ AttraversaDir(_PATH_TO_SCAN)
 release object pb_aOs
 pb_aOs = NULL
 
-lc_oOs.releaseConnection()
-release object lc_oOs
-lc_oOs = NULL
+pb_oOs.releaseConnection()
+release object pb_oOs
+pb_oOs = NULL
 
 q.active = false
 release object q
@@ -816,19 +820,19 @@ class SearchOutputStrings
          lc_bOutputString = this.IsOutputString(lc_sTempRow,lc_aStringheValide)
 			
          if lc_bOutputString
-				if not(empty(lc_sFunction))						
-					// Cosa fa			:			Controlla se una parola/stringa è un elemento dell'array (=la parola è nell'array)
-					//	pr_elemento		:			elemento da cercare nell'array
-					//	pr_aArray		.			array -> array nel quale cercare
-					//	Ritorna			:			lc_bRet -> logico, true se l'elemento è presente nell'array, altrimenti false
-//					if not(this.IsIn(lc_row,pb_aOs))
+				if not(empty(lc_sFunction))
+					// Se la riga non è presente in db, la salvo
+					if pb_aOs.Scan(lc_row) == 0
 						// Cosa fa			:			Scrive nel db i dati
 						// pr_filePath		:			stringa, percorso del file
 						// pr_sFunction	:			stringa, nome delle funzione
 						// pr_nRow			:			numerico (intero), numero della riga
 						// pr_row			:			stringa, riga estratta dal sorgente
 						this.writeDb(lc_filePath,lc_sFunction,lc_nRow,lc_row)
-//					endif
+						
+						// Aggiungo anche la riga all'array
+						pb_aOs.add(lc_row)
+					endif
 				endif
          endif
       enddo
