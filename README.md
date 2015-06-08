@@ -53,14 +53,14 @@ Be careful: don't rename or move source file after scan and before translate. Tr
 
 ## Info/Contacts:
 
-        Last Update: 05/06/2015
+Last Update: 05/06/2015
 
-        Author: Luca Bertoni
+Author: Luca Bertoni
 
-        Version: 1.4
+Version: 1.4
 
-        Contacts:
+Contacts:
 
-                Email: luca.bertoni24@gmail.com
+	Email: luca.bertoni24@gmail.com
 
-                Facebook: https://www.facebook.com/LucaBertoniLucaBertoni 
+        Facebook: https://www.facebook.com/LucaBertoniLucaBertoni 
