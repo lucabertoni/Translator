@@ -51,6 +51,17 @@ Be careful: don't rename or move source file after scan and before translate. Tr
   - Javascript  
   - Php
 
+## Execution time
+
+Total amount of source code lines: ~350000  
+Total amount of extracted lines: 1137  
+Computer details: AMD Opteron Processor 6140 2.57Ghz, 3,44GB (4Gb) Ram
+
+Scanning time: 1.22 min  
+Export file: 1 sec  
+Import file: 1 sec  
+Translation: 55 sec
+
 ## Info/Contacts:
 
 Last Update: 08/06/2015
