@@ -28,6 +28,7 @@ If source code line observe above criteria, will be saved in OutputStrings table
 ## Updates
 
 *08/06/2015*  
+Bug fixed on removing duplicates.  
 Duplicates removed when scanning for output-strings.  
 Add buttons to main.wfm (Main) window to skip to start or end of outputstrings table.
 

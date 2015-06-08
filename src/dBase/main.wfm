@@ -17,9 +17,9 @@ class mainForm of FORM
    set procedure to outputstrings.dmd additive
    with (this)
       height = 25.7273
-      left = -17.4286
-      top = 0.3182
-      width = 122.4286
+      left = -32.4286
+      top = 0.6364
+      width = 140.0
       text = "Translate"
       topMost = false
       autoCenter = true
@@ -34,8 +34,8 @@ class mainForm of FORM
    this.OUTPUTSTRINGSDMD1 = new OUTPUTSTRINGSDMD()
    this.OUTPUTSTRINGSDMD1.parent = this
    with (this.OUTPUTSTRINGSDMD1)
-      left = 115.0
-      top = 1.0
+      left = 129.0
+      top = 2.0
    endwith
 
    with (this.OUTPUTSTRINGSDMD1.OUTPUTSTRINGS1)
@@ -43,7 +43,7 @@ class mainForm of FORM
    endwith
 
    with (this.OUTPUTSTRINGSDMD1.OUTPUTSTRINGS1.rowset)
-      filter = "ID < 0"
+      filter = ""
    endwith
 
    with (this.OUTPUTSTRINGSDMD1.ESCLUSIONI1)
@@ -80,7 +80,7 @@ class mainForm of FORM
    with (this.PUSHBUTTON3)
       onClick = class::PUSHBUTTON3_ONCLICK
       height = 1.3182
-      left = 105.7143
+      left = 125.7143
       top = 23.8182
       width = 12.2857
       text = "Esci"
@@ -108,18 +108,6 @@ class mainForm of FORM
       upBitmap = "RESOURCE TL_DELETE"
    endwith
 
-   this.ENTRYFIELDPASSWD = new ENTRYFIELD(this)
-   with (this.ENTRYFIELDPASSWD)
-      onKey = class::ENTRYFIELDPASSWD_ONKEY
-      visible = false
-      height = 1.0
-      left = 67.0
-      top = 3.0909
-      width = 23.2857
-      value = ""
-      validErrorMsg = "Dato immesso non valido "
-   endwith
-
    this.PUSHBUTTON6 = new PUSHBUTTON(this)
    with (this.PUSHBUTTON6)
       onClick = class::PUSHBUTTON6_ONCLICK
@@ -136,9 +124,9 @@ class mainForm of FORM
       height = 18.5
       left = 1.0
       top = 5.0
-      width = 121.0
+      width = 138.0
       colorNormal = "BtnText/BtnFace"
-      dataSource = 'ARRAY {"Outputstrings", "Esclusioni"}'
+      dataSource = 'ARRAY {"Outputstrings","Esclusioni","Traduzioni"}'
    endwith
 
    this.NOTEBOOK1.GRID2 = new GRID(this.NOTEBOOK1)
@@ -153,7 +141,7 @@ class mainForm of FORM
       height = 15.0
       left = 1.2857
       top = 1.5455
-      width = 115.0
+      width = 135.0
    endwith
 
    this.NOTEBOOK1.TEXTLABEL1 = new TEXTLABEL(this.NOTEBOOK1)
@@ -200,6 +188,7 @@ class mainForm of FORM
    this.NOTEBOOK1.GRID1 = new GRID(this.NOTEBOOK1)
    with (this.NOTEBOOK1.GRID1)
       onLeftDblClick = class::GRID1_ONLEFTDBLCLICK
+      defaultMemoEditor = 1	// Use columnEntryfield
       dataLink = form.outputstringsdmd1.outputstrings1.rowset
       columns["COLUMN1"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
       with (columns["COLUMN1"])
@@ -211,19 +200,19 @@ class mainForm of FORM
       with (columns["COLUMN2"])
          dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["sfile"]
          editorType = 1	// EntryField
-         width = 111.7143
+         width = 40.0
       endwith
       columns["COLUMN3"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
       with (columns["COLUMN3"])
          dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["sfunction"]
          editorType = 1	// EntryField
-         width = 111.7143
+         width = 30.7143
       endwith
       columns["COLUMN4"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
       with (columns["COLUMN4"])
          dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["nriga"]
          editorType = 3	// SpinBox
-         width = 18.5714
+         width = 10.5714
       endwith
       columns["COLUMN5"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID1)
       with (columns["COLUMN5"])
@@ -241,7 +230,7 @@ class mainForm of FORM
       with (columns["COLUMN7"])
          dataLink = form.outputstringsdmd1.outputstrings1.rowset.fields["shash"]
          editorType = 1	// EntryField
-         width = 111.7143
+         width = 50.7143
       endwith
       with (columns["COLUMN1"].editorControl)
          rangeMax = 100
@@ -310,14 +299,14 @@ class mainForm of FORM
       height = 15.0
       left = 1.0
       top = 1.5
-      width = 119.0
+      width = 136.0
    endwith
 
    this.NOTEBOOK1.PUSHBUTTON1 = new PUSHBUTTON(this.NOTEBOOK1)
    with (this.NOTEBOOK1.PUSHBUTTON1)
       onClick = class::PUSHBUTTON1_ONCLICK2
       height = 1.3182
-      left = 99.0
+      left = 116.0
       top = 16.8182
       width = 10.2857
       text = "Inizio"
@@ -328,18 +317,124 @@ class mainForm of FORM
    with (this.NOTEBOOK1.PUSHBUTTON2)
       onClick = class::PUSHBUTTON2_ONCLICK1
       height = 1.3182
-      left = 109.4286
+      left = 126.4286
       top = 16.7727
       width = 10.2857
       text = "Fine"
       upBitmap = "RESOURCE TL_LAST"
+      bitmapAlignment = 3	// A destra
+   endwith
+
+   this.NOTEBOOK1.GRID3 = new GRID(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.GRID3)
+      dataLink = form.outputstringsdmd1.traduzioni1.rowset
+      columns["COLUMN1"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID3)
+      with (columns["COLUMN1"])
+         dataLink = form.outputstringsdmd1.traduzioni1.rowset.fields["id"]
+         editorType = 3	// SpinBox
+         width = 18.5714
+      endwith
+      columns["COLUMN2"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID3)
+      with (columns["COLUMN2"])
+         dataLink = form.outputstringsdmd1.traduzioni1.rowset.fields["ssiglalingua"]
+         editorType = 1	// EntryField
+         width = 17.1429
+      endwith
+      columns["COLUMN3"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID3)
+      with (columns["COLUMN3"])
+         dataLink = form.outputstringsdmd1.traduzioni1.rowset.fields["shash"]
+         editorType = 1	// EntryField
+         width = 127.7143
+      endwith
+      columns["COLUMN4"] = new GRIDCOLUMN(form.NOTEBOOK1.GRID3)
+      with (columns["COLUMN4"])
+         dataLink = form.outputstringsdmd1.traduzioni1.rowset.fields["straduzione"]
+         editorType = 5	// Editor
+         width = 28.5714
+      endwith
+      with (columns["COLUMN1"].editorControl)
+         rangeMax = 100
+         rangeMin = 1
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN1"].headingControl)
+         value = "Id"
+      endwith
+
+      with (columns["COLUMN2"].editorControl)
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN2"].headingControl)
+         value = "Ssiglalingua"
+      endwith
+
+      with (columns["COLUMN3"].editorControl)
+         validErrorMsg = "Dato immesso non valido "
+      endwith
+
+      with (columns["COLUMN3"].headingControl)
+         value = "Shash"
+      endwith
+
+      with (columns["COLUMN4"].headingControl)
+         value = "Straduzione"
+      endwith
+
+      rowSelect = true
+      allowRowSizing = false
+      allowColumnMoving = false
+      allowEditing = false
+      allowAddRows = false
+      pageno = 3
+      height = 15.0
+      left = 1.2857
+      top = 1.5455
+      width = 135.0
+   endwith
+
+   this.NOTEBOOK1.TEXTLABEL3 = new TEXTLABEL(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.TEXTLABEL3)
+      height = 1.0
+      left = 2.1429
+      top = 17.1364
+      width = 21.0
+      text = "Totale: 0"
+      fontSize = 12.0
+      pageno = 3
+   endwith
+
+   this.NOTEBOOK1.PUSHBUTTON3 = new PUSHBUTTON(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.PUSHBUTTON3)
+      onClick = class::PUSHBUTTON3_ONCLICK1
+      height = 1.3182
+      left = 116.0
+      top = 16.8182
+      width = 10.2857
+      text = "Inizio"
+      upBitmap = "RESOURCE TL_FIRST"
+      pageno = 3
+   endwith
+
+   this.NOTEBOOK1.PUSHBUTTON4 = new PUSHBUTTON(this.NOTEBOOK1)
+   with (this.NOTEBOOK1.PUSHBUTTON4)
+      onClick = class::PUSHBUTTON4_ONCLICK1
+      height = 1.3182
+      left = 126.4286
+      top = 16.8182
+      width = 10.2857
+      text = "Fine"
+      upBitmap = "RESOURCE TL_LAST"
+      bitmapAlignment = 3	// A destra
+      pageno = 3
    endwith
 
    this.PUSHBUTTON5 = new PUSHBUTTON(this)
    with (this.PUSHBUTTON5)
       onClick = class::PUSHBUTTON5_ONCLICK
       height = 1.3182
-      left = 91.0
+      left = 116.0
       top = 3.0
       width = 23.2857
       text = "Genera file traduzioni"
@@ -350,7 +445,7 @@ class mainForm of FORM
    with (this.PUSHBUTTON7)
       onClick = class::PUSHBUTTON7_ONCLICK
       height = 1.3182
-      left = 91.0
+      left = 116.0
       top = 1.0
       width = 23.2857
       text = "Importa traduzione"
@@ -366,6 +461,39 @@ class mainForm of FORM
       width = 20.2857
       text = "Traduci"
       upBitmap = "RESOURCE TL_RUN"
+   endwith
+
+   this.PUSHBUTTON9 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON9)
+      onClick = class::PUSHBUTTON9_ONCLICK
+      height = 1.3182
+      left = 91.4286
+      top = 1.0
+      width = 23.2857
+      text = "Cancella esclusioni"
+      upBitmap = "RESOURCE TL_DELETE"
+   endwith
+
+   this.PUSHBUTTON10 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON10)
+      onClick = class::PUSHBUTTON10_ONCLICK
+      height = 1.3182
+      left = 91.4286
+      top = 3.0
+      width = 23.2857
+      text = "Cancella traduzioni"
+      upBitmap = "RESOURCE TL_DELETE"
+   endwith
+
+   this.PUSHBUTTON11 = new PUSHBUTTON(this)
+   with (this.PUSHBUTTON11)
+      onClick = class::PUSHBUTTON11_ONCLICK
+      height = 1.3182
+      left = 67.0
+      top = 3.0
+      width = 23.2857
+      text = "Leggi traduzioni"
+      upBitmap = "RESOURCE TL_FILTER"
    endwith
 
    this.rowset = this.outputstringsdmd1.outputstrings1.rowset
@@ -552,6 +680,38 @@ class mainForm of FORM
 		lc_oEscl = NULL
 		
       return
+   
+      function PUSHBUTTON10_onClick()
+			local lc_oTrad
+			
+			lc_oTrad = new Traduzioni()
+				
+			// Cosa fa			:			Elimina tutte le righe dalla tabella
+			lc_oTrad.deleteAll()
+			
+			form.outputstringsdmd1.traduzioni1.requery()
+			form.notebook1.grid3.refresh()
+			msgbox("Tabella pulita correttamente!","Tabella pulita",32)
+
+			form.notebook1.textlabel3.text = 'Totale: '+form.outputstringsdmd1.outputstrings1.rowset.count()
+
+			lc_oTrad.releaseConnection()
+			release object lc_oTrad
+			lc_oTrad = NULL
+	
+      return
+   function PUSHBUTTON11_onClick()
+		form.outputstringsdmd1.traduzioni1.rowset.filter = ''
+		form.outputstringsdmd1.traduzioni1.sql = "SELECT * FROM TRADUZIONI"
+		form.outputstringsdmd1.traduzioni1.requery()
+		form.outputstringsdmd1.traduzioni1.rowset.refresh()
+		form.outputstringsdmd1.traduzioni1.rowset.refreshControls()
+		form.notebook1.grid3.enabled = True
+		form.notebook1.grid3.refresh()
+		form.notebook1.textlabel3.text = 'Totale: '+form.outputstringsdmd1.traduzioni1.rowset.count()
+		form.notebook1.cursel = 3
+      
+      return
    function PUSHBUTTON1_onClick()
 		local lc_sPath,lc_oOs
 		lc_sPath = form.entryfield1.Value
@@ -606,11 +766,34 @@ class mainForm of FORM
    function PUSHBUTTON3_onClick()
       form.close()
       return
+   
+   function PUSHBUTTON3_onClick1()
+      form.outputstringsdmd1.traduzioni1.rowset.first()
+      return
    function PUSHBUTTON4_onClick()
-      form.entryfieldpasswd.visible = True
+		local lc_oOs
+		
+		lc_oOs = new Outputstrings()
+			
+		// Cosa fa			:			Elimina tutte le righe dalla tabella
+		lc_oOs.deleteAll()
+		
+		form.outputstringsdmd1.outputstrings1.requery()
+		form.notebook1.grid1.refresh()
+		msgbox("Tabella pulita correttamente!","Tabella pulita",32)
+
+		form.notebook1.textlabel1.text = 'Totale: '+form.outputstringsdmd1.outputstrings1.rowset.count()
+
+		lc_oOs.releaseConnection()
+		release object lc_oOs
+		lc_oOs = NULL
+		
       return
 		
-      function PUSHBUTTON5_onClick()
+	function PUSHBUTTON4_onClick1()
+      form.outputstringsdmd1.traduzioni1.rowset.Last()
+      return
+   function PUSHBUTTON5_onClick()
 			do .\makeFile.wfm
 			return
    function PUSHBUTTON5_onClick1()
@@ -631,6 +814,26 @@ class mainForm of FORM
    
    function PUSHBUTTON8_onClick()
       do .\translate.wfm
+      return
+   
+   function PUSHBUTTON9_onClick()
+		local lc_oEscl
+		
+		lc_oEscl = new Esclusioni()
+			
+		// Cosa fa			:			Elimina tutte le righe dalla tabella
+		lc_oEscl.deleteAll()
+		
+		form.outputstringsdmd1.esclusioni1.requery()
+		form.notebook1.grid2.refresh()
+		msgbox("Tabella pulita correttamente!","Tabella pulita",32)
+
+		form.notebook1.textlabel2.text = 'Totale: '+form.outputstringsdmd1.outputstrings1.rowset.count()
+
+		lc_oEscl.releaseConnection()
+		release object lc_oEscl
+		lc_oEscl = NULL
+      
       return
    function TEXTLABEL1_onOpen()
       this.text = 'Totale: '+form.outputstringsdmd1.outputstrings1.rowset.count()

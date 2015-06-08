@@ -236,6 +236,11 @@ class Outputstrings
 
 		return lc_aRet
 		
+	// Cosa fa			:			Elimina tutte le righe dalla tabella
+	function deleteAll()
+		this.oDb.executesql("DELETE FROM OUTPUTSTRINGS")	
+		return
+		
 	// Cosa fa			:			Chiude la connessione al db, rilasciando l'oggetto this.oDb e this.q
 	function releaseConnection()
 		this.oQ.active = False
@@ -279,6 +284,11 @@ class Esclusioni
 		lc_sSql = 'INSERT INTO ESCLUSIONI(SHASH) VALUES("'+lc_sHash+'")'
 		this.oDb.executesql(lc_sSql)
 		return
+
+	// Cosa fa			:			Elimina tutte le righe dalla tabella
+	function deleteAll()
+		this.oDb.executesql("DELETE FROM ESCLUSIONI")	
+		return	
 	
 	// Cosa fa			:			Chiude la connessione al db, rilasciando l'oggetto this.oDb
 	function releaseConnection()
@@ -323,7 +333,7 @@ class Traduzioni
 			
 	// Cosa fa			:			Cancella tutto il contenuto della tabella Traduzione
 	function deleteAll()
-		this.oDb.executesql("DELETE FROM TRADUZIONE")
+		this.oDb.executesql("DELETE FROM TRADUZIONI")
 		return
 
 	// Cosa fa				:			Controlla se un elemento è già presente nella tabella basandosi sulla
@@ -401,7 +411,7 @@ class Traduzioni
 	function reselect()
 		this.oQ.sql = "SELECT * FROM TRADUZIONI"
 		return
-	
+
 	// Cosa fa			:			Chiude la connessione al db, rilasciando l'oggetto this.oDb
 	function releaseConnection()
 		this.oQ.active = False
