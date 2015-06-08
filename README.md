@@ -34,7 +34,8 @@ You will see a window like this:
   Be careful: When you translate your software, translation will override original. **Make a copy!**  
   - *Leggi outputstrings*: This button will load in the grid all the rows extracted after scanning.  
   - *Leggi esclusioni*: You can read in the grid all exclusions that you have applied to the scan. You can add an exclusion by left-double-clicking on selected row in the outputstrings-grid.  
-  - *Cancella outputstrings*: You have to clean Outputstrings table each scan. You can do it by clicking on *Cancella outputstrings*, writing *Luchino.2015* in the entryfield and pressing *Enter*.
+  - *Leggi traduzioni*: You can read all data in Traduzioni table using this button.  
+  - *Cancella outputstrings/esclusioni/traduzioni*: You can clean Outputstrings/Esclusioni/Traduzioni tables by clicking on this button.
 
 
 ## Supported Languages  
