@@ -15,7 +15,7 @@ If you have dBase Plus you can build the project(from /src/Your-Language/Transla
   - Open BDE Administrator  
   - Object -> New -> Database Driver Name: INTRBASE  
   - Name it: TranslateDB  
-  - Set Server Name: C:\absolute_path\translate\OUTPUTSTRINGS.GDB  
+  - Set Server Name: C:\absolute_path\Your_Language\OUTPUTSTRINGS.GDB  
   - Set SqlQryMode: LOCAL  
   - User Name: SYSDBA (if you want to access to the database, password is: masterkey)
 
