@@ -1,16 +1,16 @@
-# C Translator
+# Python Translator
 
-C Translator will help you to translate your dBase software.
+Python Translator will help you to translate your dBase software.
 
-This README will describe an overview of Translator for C. If you want to read general documentation, see /README.md.
+This README will describe an overview of Translator for Python. If you want to read general documentation, see /README.md.
 
-## What C Translator get from source code
+## What Python Translator get from source code
 
 This script will scan all strings in function-return(allowed void function) statement.
 
-Translator for C will search this text in each source code line:  
+Translator for Python will search this text in each source code line:  
 
-Translator for C will discard lines that observe above criteria but contains:  
+Translator for Python will discard lines that observe above criteria but contains:  
 
 If source code line observe above criteria, will be saved in OutputStrings table of the database.
 
