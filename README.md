@@ -65,8 +65,6 @@ Translation: 55 sec
 
 ## Info/Contacts:
 
-Last Update: 08/06/2015
-
 Author: Luca Bertoni
 
 Contacts:
