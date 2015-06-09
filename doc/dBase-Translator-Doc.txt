@@ -27,6 +27,9 @@ If source code line observe above criteria, will be saved in OutputStrings table
 
 ## Updates
 
+*09/06/2015*  
+Graphical error fixed
+
 *08/06/2015*  
 Bug fixed on removing duplicates.  
 Duplicates removed when scanning for output-strings.  
@@ -34,7 +37,7 @@ Add buttons to main.wfm (Main) window to skip to start or end of outputstrings t
 
 ## Info/Contacts:
 
-Last Update: 08/06/2015
+Last Update: 09/06/2015
 
 Author: Luca Bertoni
 
