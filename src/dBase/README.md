@@ -28,6 +28,8 @@ If source code line observe above criteria, will be saved in OutputStrings table
 ## Updates
 
 *09/06/2015*  
+Removed duplicates on export on the same file.  
+Append to file if exist.
 Graphical error fixed
 
 *08/06/2015*  
