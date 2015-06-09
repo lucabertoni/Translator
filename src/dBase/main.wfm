@@ -1,7 +1,7 @@
 set procedure to translate.prg additive
 ** END HEADER -- non togliere questa linea
 //
-// Generato il 08/06/2015
+// Generato il 09/06/2015
 //
 parameter bModal
 local f
@@ -38,20 +38,20 @@ class mainForm of FORM
       top = 2.0
    endwith
 
-   with (this.OUTPUTSTRINGSDMD1.OUTPUTSTRINGS1)
-      sql = "SELECT * FROM OUTPUTSTRINGS"
-   endwith
-
-   with (this.OUTPUTSTRINGSDMD1.OUTPUTSTRINGS1.rowset)
-      filter = ""
-   endwith
-
    with (this.OUTPUTSTRINGSDMD1.ESCLUSIONI1)
       sql = "SELECT * FROM ESCLUSIONI"
    endwith
 
    with (this.OUTPUTSTRINGSDMD1.ESCLUSIONI1.rowset)
       filter = "ID < 0"
+   endwith
+
+   with (this.OUTPUTSTRINGSDMD1.OUTPUTSTRINGS1)
+      sql = "SELECT * FROM OUTPUTSTRINGS"
+   endwith
+
+   with (this.OUTPUTSTRINGSDMD1.OUTPUTSTRINGS1.rowset)
+      filter = ""
    endwith
 
    this.PUSHBUTTON1 = new PUSHBUTTON(this)
@@ -173,7 +173,7 @@ class mainForm of FORM
       left = 23.1429
       top = 17.0909
       width = 15.1429
-      text = "sRiga-cEsludi"
+      text = "sRiga-cEscludi"
    endwith
 
    this.NOTEBOOK1.TEXTLABELPROGESS = new TEXTLABEL(this.NOTEBOOK1)
