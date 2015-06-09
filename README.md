@@ -2,6 +2,8 @@
 
 Translator will help you to translate your software.
 
+What does it do? This software will get from your source code all lines containing particular type of instructions (all line that are displayed on the monitor, like *printf("Hello World!")*). You can also export extracted lines in csv file and translate them and the reimport them and translate your software.
+
 This README will describe an overview of Translator. If you want to read all documentation specific to your language, see /doc/Your_Language-Translator-doc.txt or /src/Your_Language/README.md.
 
 ## How to install
