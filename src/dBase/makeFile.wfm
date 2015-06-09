@@ -1,6 +1,7 @@
+set procedure to translate.prg additive
 ** END HEADER -- non togliere questa linea
 //
-// Generato il 04/06/2015
+// Generato il 09/06/2015
 //
 parameter bModal
 local f

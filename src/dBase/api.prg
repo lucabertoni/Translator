@@ -178,3 +178,31 @@ function MakeTree(pr_path)
    cd &pv_oldpath.
 
   	return lc_ok
+	
+// Cosa fa			:			Estrae da un array multidimensionale (bidimensionale), l'elemento n del primo livello
+// pr_aElements	:			array, array da analizzare, es:
+//										[1] => "stringa"
+//										[2] => array()
+// pr_nElement		:			numerico (intero), numero dell'elemento da estrarre, es: 2
+// Ritorna			:			lc_aRet -> array di elementi estratti, es:
+//										[1] => pr_aElements[1][2]
+//										[2] => pr_aElements[2][2]
+//										[3] => pr_aElements[3][2]
+//										...
+function getMultiDimArrayElement(pr_aElements,pr_nElement)
+	local lc_aElements,lc_nElement,lc_aRet,lc_fine,i
+	
+	lc_aElements = pr_aElements
+	lc_nElement = pr_nElement
+	lc_fine = ALEN(lc_aElements)
+	lc_aRet = new array()
+	
+	for i = 1 to lc_fine
+			lc_aRet.add(lc_aElements[i][lc_nElement])
+		try
+		catch (Exception e)
+			lc_aRet.add(NULL)
+		endtry
+	next
+	
+	return lc_aRet

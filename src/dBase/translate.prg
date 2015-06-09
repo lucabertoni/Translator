@@ -1,4 +1,4 @@
-set procedure to .\api.prg additive
+set procedure to api.prg additive
 
 class TranslateDB Of DATABASE
 	with(this)
@@ -433,35 +433,71 @@ endclass
 //													[1] = "stringa"				Stringa
 //													[2] = 6172384712349			Hash
 function writeFileTraduzioni(pr_aRighe,pr_sLingua,pr_sPath)
-	local lc_aOs,lc_fine,lc_sPath,lc_oF,lc_sRiga,lc_nCount,lc_sLingua,lc_sPath
+	local lc_aOs,lc_fine,lc_sPath,lc_oF,lc_sRiga,lc_nCount,lc_sLingua,lc_sPath,lc_aFileContent
+	local lc_aRighe
 	
 	lc_aOs = pr_aRighe
 	lc_nCount = 0
 	lc_sLingua = pr_sLingua
 	lc_sPath = pr_sPath
+	lc_aRighe = new array()
 	
 	lc_fine = lc_aOs.size
 	
 	lc_oF = new file()
 
-? "|"+lc_sPath+"|"
 	if file(lc_sPath)
-		// !!! Sostituisce tutto il contenuto del file !!!
-		lc_oF.open(lc_sPath,'W')
+
+		// Cosa fa				:				Importa il file contenente la traduzione delle righe e salva il contenuto nella tabella Traduzioni
+		// pr_sPath				:				stringa, percorso del file da importare.
+		// pr_sLingua			:				stringa, sigla della lingua da importare. Es: EN
+		// N.B.					:				Il file importato dovrà rispettare il seguente formato:
+		//											IT+carattere separatore (chr 30)+stringa originale+carattere separatore (chr 30)+Hash -> Questa riga sarà scartata
+		//											EN+carattere separatore (chr 30)+stringa tradotta+carattere separatore (chr 30)+Hash
+		// Ritorna				:				lc_aRiga -> array, così formato:
+		//												[1] => IT
+		//												[2] => msgbox("This is a test")
+		//												[3] => 981263418732647
+		lc_aFileContent = importFileTraduzioni(lc_sPath,pr_sLingua)
+		
+		// Cosa fa			:			Estrae da un array multidimensionale (bidimensionale), l'elemento n del primo livello
+		// pr_aElements	:			array, array da analizzare, es:
+		//										[1] => "stringa"
+		//										[2] => array()
+		// pr_nElement		:			numerico (intero), numero dell'elemento da estrarre, es: 2
+		// Ritorna			:			lc_aRet -> array di elementi estratti, es:
+		//										[1] => pr_aElements[1][2]
+		//										[2] => pr_aElements[2][2]
+		//										[3] => pr_aElements[3][2]
+		//										...
+		lc_aRighe = getMultiDimArrayElement(lc_aFileContent,3)
+		
+		lc_oF.open(lc_sPath,'A')
 	else
 		lc_oF.create(lc_sPath,"W")
-	endif
+	endif	
 
 //	Array così strutturato:
 //	lc_aOs[i][1] = "stringa"
 //	lc_aOs[i][2] = 6172384712349
 	for i = 1 to lc_fine
-		lc_sRiga = 'IT'+chr(30)+lc_aOs[i][1]+chr(30)+lc_aOs[i][2]			// chr(30) = record separator
-		lc_oF.puts(lc_sRiga)
-		lc_sRiga = lc_sLingua+chr(30)+lc_aOs[i][1]+chr(30)+lc_aOs[i][2]
-		lc_oF.puts(lc_sRiga)
+		if lc_aRighe.scan(lc_aOs[i][2]) == 0
+			lc_sRiga = 'IT'+chr(30)+lc_aOs[i][1]+chr(30)+lc_aOs[i][2]			// chr(30) = record separator
+			lc_oF.puts(lc_sRiga)
+			lc_sRiga = lc_sLingua+chr(30)+lc_aOs[i][1]+chr(30)+lc_aOs[i][2]
+			lc_oF.puts(lc_sRiga)
+		endif
 	next
 
+	try
+		release object lc_aFileContent
+		lc_aFileContent = NULL
+
+		release object lc_aRighe
+		lc_aRighe = NULL
+	catch (Exception e)
+	endtry
+	
 	lc_oF.close()
 	release object lc_oF
 	lc_oF = NULL
@@ -474,27 +510,54 @@ function writeFileTraduzioni(pr_aRighe,pr_sLingua,pr_sPath)
 // N.B.					:				Il file importato dovrà rispettare il seguente formato:
 //											IT+carattere separatore (chr 30)+stringa originale+carattere separatore (chr 30)+Hash -> Questa riga sarà scartata
 //											EN+carattere separatore (chr 30)+stringa tradotta+carattere separatore (chr 30)+Hash
+// Ritorna				:				lc_aRet -> array, così formato:
+//												[1] =>
+//													[1] => IT
+//													[2] => msgbox("This is a test")
+//													[3] => 981263418732647
 function importFileTraduzioni(pr_sPath,pr_sLingua)
-	local lc_sPath,lc_sLingua,lc_oF,lc_sRiga
+	set procedure to api.prg additive
+	local lc_sPath,lc_sLingua,lc_oF,lc_sRiga,lc_aRet
 
 	lc_sPath = pr_sPath
 	lc_sLingua = pr_sLingua
 	
 	lc_oFile = new file()
+	lc_aRet = new array()
 	
 	if file(lc_sPath)
-		lc_oF.open(lc_sPath)
+		lc_oFile.open(lc_sPath)
 	else
 		msgbox("File inesistente","File inesistente",16)
+		lc_oFile.close()
+		release object lc_oFile
+		lc_oFile = NULL
 		return
 	endif
 	
-	do while not(lc_oF.eof())
+	do while not(lc_oFile.eof())
 		// Faccio un gets per estrarre la riga originale (da scartare), poi faccio il gets della riga che mi interessa
-		lc_oF.gets()
-		lc_sRiga = lc_oF.gets()
+		lc_oFile.gets()
+		lc_sRiga = lc_oFile.gets()
 		
+		// Cosa fa				:			Splitta la riga sul carattere passato come parametro
+		// pr_sStringa			:			stringa, testo da splittare
+		// pr_cChar				:			carattere, carattere sul quale splittare la stringa
+		// Ritorna				:			lc_aRet -> array, contiene tutti gli elementi derivanti dallo split
+		//										Es: "Stringa da | splittare sul |carattere" "|"
+		//										lc_aRet[1] = "Stringa da "
+		//										lc_aRet[2] = " splittare sul "
+		//										lc_aRet[3] = "carattere"
 		lc_aRiga = split(lc_sRiga,chr(30))
+		lc_sSiglaLingua = lc_aRiga[1]
+		lc_sRiga = lc_aRiga[2]
+		lc_sHash = lc_aRiga[3]
+		lc_aRet.add({lc_sSiglaLingua,lc_sRiga,lc_sHash})
+		
 	enddo
 	
-	return
+	lc_oFile.close()
+	release object lc_oFile
+	lc_oFile = NULL
+	
+	return lc_aRet
